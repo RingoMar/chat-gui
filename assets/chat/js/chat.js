@@ -457,7 +457,7 @@ class Chat {
 
                 if (prevMessageId && prevText && targetUser) {
                     // Build the MSGREPLY payload
-                    this.source.emit("MSGREPLY", { data: text, nick: this.user.nick, target: targetUser.nick, prev: prevText, prevMessageId: prevMessageId });
+                    this.source.send("MSGREPLY", { data: text, nick: this.user.nick, target: targetUser.nick, prev: prevText, prevMessageId: prevMessageId });
 
                     // Clear banner state
                     $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
@@ -1311,7 +1311,7 @@ class Chat {
         }
     }
 
-    onREPLY(data) {
+    onREPLY(data) {                
         const user = this.users.get(data.nick.toLowerCase());
         const target = this.users.get(data.target.toLowerCase());
 
@@ -1320,7 +1320,7 @@ class Chat {
             user,              // sender user object
             target,             // target user object
             data.prev,        // previoustext
-            data.prevMessageId,        // previoustext
+            data.prevMessageId,// previoustext ID
             data.messageId,    // optional message ID
             data.timestamp    // optional timestamp
         ).into(this);
@@ -2109,7 +2109,7 @@ class Chat {
             return;
         }
 
-        this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.msgid });
+        this.source.send("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.msgid });
 
         // Add to input history
         this.inputhistory.add(`/reply ${targetNick} ${replyText}`);
