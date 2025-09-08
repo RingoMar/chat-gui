@@ -71,7 +71,7 @@ export default class MockStream {
                 }
                 else if (eventname === "MSGREPLY") {
                     data.nick = username;
-                    this.server.emit("MSGREPLY", `MSGREPLY ${JSON.stringify(data)}`);
+                    this.server.emit("message", `MSGREPLY ${JSON.stringify(data)}`);
                 }
             });
         });
